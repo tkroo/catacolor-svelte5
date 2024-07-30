@@ -1,11 +1,15 @@
 <script>
   import { detectThemeFormat } from '$lib/utils';
   import ColorBlock from "$lib/ColorBlock.svelte";
+	import Combos from "$lib/Combos-Alt.svelte";
   let message = $state(null);
 	let success = $state(false);
   let showControls = $state(false);
-  
-  let colors = $state([
+
+	let colors = $state([]);
+
+	// initial colors
+	[
     { NAME: 'BLACK', R: 36, G: 31, B: 40 },
     { NAME: 'RED', R: 192, G: 28, B: 40 },
 		{ NAME: 'GREEN', R: 24, G: 139, B: 24 },
@@ -22,7 +26,15 @@
 		{ NAME: 'LMAGENTA', R: 229, G: 126, B: 213 },
 		{ NAME: 'LCYAN', R: 84, G: 244, B: 254 },
 		{ NAME: 'WHITE', R: 255, G: 255, B: 255 }
-  ]);
+  ].forEach((c) => {
+		colors.push({
+			NAME: c.NAME,
+			R: c.R,
+			G: c.G,
+			B: c.B
+		})
+	});
+
 
   const prefix = '[\n  {\n    "type": "colordef",';
 	const suffix = '\n  }\n]';
@@ -54,7 +66,7 @@ const writeToFile = () => {
 			if (tmp.file_type != 'unknown') {
 				message = `LOADED ${tmp.file_type} theme: '${file.name}'`;
 				success = true;
-				colors = [...tmp.colors];
+				colors = tmp.colors;
 			} else {
 				success = false;
 				message = `ERROR: unexpected format ${tmp.file_type} ${file.name}`;
@@ -65,46 +77,47 @@ const writeToFile = () => {
 
 </script>
 <div class="col-adjust">
-
   <h2 class="f-light">Adjust</h2>
-  
   <p style="font-size: 0.75rem">
 		Click the colors for the native color picker or <button class="btn" onclick={() => showControls = !showControls}>{showControls ? 'hide controls' : 'show controls'}</button>
 	</p>
+	
+	<div class="color-blocks">
+		{#each colors as _, i}
+		<ColorBlock bind:color={colors[i]} {showControls} />
+		{/each}
+	</div>
+
+	<div class="controls">
+		<label for="file-upload" class="btn custom-file-upload">load theme
+		<input
+			id="file-upload"
+			type="file"
+			class="input"
+			name="file-upload"
+			onchange={readFile}/>
+		</label>
+		{#if message}<span class="{success ? 'success' : 'error'}">{message}</span>{/if}
+	</div>
+
 </div>
 
-<div class="color-blocks">
-  {#each colors as _, i}
-  <ColorBlock bind:color={colors[i]} {showControls} />
-  {/each}
-</div>
 
-<div class="controls">
-  <!-- <div class="smaller">
-    optional: load a {#each $formats as format, i}
-    <a href="{format.url}">{format.name}</a>{#if i < $formats.length - 1}&nbsp;or&nbsp;{/if}
-    {/each}
-    theme. <a href="/about">(more info)</a>
-  </div> -->
-  <label for="file-upload" class="btn custom-file-upload">load theme
-  <input
-    id="file-upload"
-    type="file"
-    class="input"
-    name="file-upload"
-    onchange={readFile}/>
-  </label>
-  {#if message}<span class="{success ? 'success' : 'error'}">{message}</span>{/if}
+<div class="cols">
+	<div class="col-output">
+		<h2 class="f-light">Output</h2>
+		<textarea readonly rows="22" cols="40">{outputString}</textarea>
+	</div>
+	<div class="col-preview">
+		<h2 class="f-light">Preview</h2>
+		<Combos sorted={colors} />
+	</div>
 </div>
-
-<div>
-<textarea readonly rows="22" cols="40">
-{outputString}
-</textarea>
-</div>
-
 
 <style>
+	.col-preview {
+		width: 100%;
+	}
   .color-blocks {
     display: flex;
     flex-wrap: wrap;

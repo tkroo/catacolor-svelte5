@@ -130,7 +130,10 @@ textarea {
 .cols {
   display: flex;
   justify-content: flex-start;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
+  width: 100%;
+  padding: 0;
+  margin: 0;
   gap: 1rem;
 }
 
