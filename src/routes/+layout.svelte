@@ -26,7 +26,7 @@
 
 <header>
   <span>
-    <h1><a href="/" title="CataColor">{@html generateColorWordThing(startColor,'CataColor Svelte5 Test')}</a></h1>
+    <h1><a href="/" title="CataColor">{@html generateColorWordThing(startColor,'CataColor')}</a></h1>
     <!-- <h1><a href="/" title="CataColor"><span class="tint" style="color:{tints[0]}">Cat</span><span class="tint" style="color:{tints[1]}">aCo</span><span class="tint" style="color:{tints[2]}">lor</span></a></h1> -->
     <p>Color theme editor for Cataclysm: Dark Days Ahead</p>
     <!-- <p>{@html generateColorWordThing(color, 'Color theme editor for Cataclysm: Dark Days Ahead', true)}</p> -->

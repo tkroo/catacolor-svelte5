@@ -89,7 +89,7 @@ const writeToFile = () => {
       optional: load a {#each formats as format, i}
 			<a href="{format.url}">{format.name}</a>{#if i < formats.length - 1}&nbsp;or&nbsp;{/if}
 			{/each}
-			theme. <a href="/about">(more info)</a>
+			theme. <a href="/info">(more info)</a>
     </div>
 		<label for="file-upload" class="btn custom-file-upload">load theme
 		<input
@@ -109,7 +109,7 @@ const writeToFile = () => {
 	<div class="col-output">
 		<h2 class="f-light">Output</h2>
 		<button class="btn btn-large" onclick={writeToFile}>download .json file</button>
-      <a class="smaller" href="/about#instructions">(instructions)</a>
+      <a class="smaller" href="/info#instructions">(instructions)</a>
 		<textarea readonly rows="22" cols="40">{outputString}</textarea>
 	</div>
 	<div class="col-preview">

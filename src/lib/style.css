@@ -248,16 +248,13 @@ ol {
   display: inline-block;
 }
 
-.error, .warning, .success {
+.error, .success {
   font-size: 0.75rem;
   font-weight: bold;
 }
 
 .error {
   color: rgb(255, 38, 0);
-}
-.warning {
-  color: orange;
 }
 .success {
   /* color: green; */

@@ -69,16 +69,12 @@
   }
 
   .new-combos {
-    /* display: flex;
-    flex-wrap: wrap; */
-    /* gap: 1rem; */
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
 
   .chunk {
-    /* width: 23%; */
     padding: 0.5rem;
   }
 </style>
