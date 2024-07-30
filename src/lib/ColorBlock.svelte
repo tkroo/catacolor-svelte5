@@ -4,10 +4,10 @@
   let options = { decimals: 0 };
 
   let initial = new ColorTranslator({R: color.R, G: color.G, B: color.B}, options);
-  
   let hex = $state(initial.HEX);
   let HSL = $state(initial.HSLObject);
   let RGB = $state(initial.RGBObject);
+
 
   $effect(() => {
     const c = new ColorTranslator({R: color.R, G: color.G, B: color.B}, options);
@@ -18,24 +18,16 @@
 
   const updateColor = (e) => {
     const newValue = e.target.value;
-    const name = e.target.name;
+    const name = e.target.name[0];
     let obj;
-    if(['H', 'S', 'L', 'H2', 'S2', 'L2'].includes(name)) {
-      obj = { ...HSL, [name]: parseInt(newValue) };
-    } else if (['R', 'G', 'B', 'R2', 'G2', 'B2'].includes(name)) {
-      if (name.length == 1) {
-        obj = { ...RGB, [name]: parseInt(newValue) };
-      } else {
-        obj = { ...RGB, [name.slice(0,1)]: parseInt(newValue) };
-      }
+    if('HSL'.split('').includes(name)) {
+      obj = name.length == 1 ? { ...HSL, [name]: parseInt(newValue) } : { ...HSL, [name.slice(0,1)]: parseInt(newValue) };
+    } else if ('RGB'.split('').includes(name)) {
+      obj = name.length == 1 ? { ...RGB, [name]: parseInt(newValue) } : { ...RGB, [name.slice(0,1)]: parseInt(newValue) };
     } else {
-      obj = new ColorTranslator(newValue, options).HEX;
+      obj = newValue;
     }
-
-    HSL = { ...new ColorTranslator(obj, options).HSLObject };
-    RGB = { ...new ColorTranslator(obj, options).RGBObject };
     color = { ...color, ...new ColorTranslator(obj, options).RGBObject };
-    hex = new ColorTranslator(obj).HEX+'';
   };
 
 
@@ -93,7 +85,7 @@
     margin-bottom: 1rem;
   }
 
-  .controls-hsl label, .controls-rgb label, .block label {
+  .controls-hsl label, .controls-rgb label {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

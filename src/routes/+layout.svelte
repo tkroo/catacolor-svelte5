@@ -44,9 +44,6 @@
   color: #eee;
   text-decoration: none;
   }
-  .tint {
-    display: inline;
-  }
   .svg {
     width: 1.5rem;
   }

@@ -1,4 +1,5 @@
 <script>
+	import { formats } from '$lib/formats';
   import { detectThemeFormat } from '$lib/utils';
   import ColorBlock from "$lib/ColorBlock.svelte";
 	import Combos from "$lib/Combos-Alt.svelte";
@@ -35,12 +36,6 @@
 		})
 	});
 
-
-  const prefix = '[\n  {\n    "type": "colordef",';
-	const suffix = '\n  }\n]';
-	const prefix_file = prefix+'\n';
-	const suffix_file = suffix;
-
   let outputString = $derived(`[
   {
     "type": "colordef",
@@ -49,13 +44,14 @@ ${colors.map(c => `    "${c.NAME}": [ ${c.R}, ${c.G}, ${c.B} ]`).join(',\n')}
 ]`);
 
 const writeToFile = () => {
-		const blob = new Blob([prefix_file, output, suffix_file], { type: 'text/plain' });
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement('a');
-		a.href = url;
-		a.download = 'base_colors-untitled.json';
-		a.click();
-	};
+	console.log('writeToFile()');
+	const blob = new Blob([outputString], { type: 'text/plain' });
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement('a');
+	a.href = url;
+	a.download = 'base_colors-untitled.json';
+	a.click();
+};
 
 	const readFile = (event) => {
 		const file = event.target.files[0];
@@ -89,6 +85,12 @@ const writeToFile = () => {
 	</div>
 
 	<div class="controls">
+		<div class="smaller">
+      optional: load a {#each formats as format, i}
+			<a href="{format.url}">{format.name}</a>{#if i < formats.length - 1}&nbsp;or&nbsp;{/if}
+			{/each}
+			theme. <a href="/about">(more info)</a>
+    </div>
 		<label for="file-upload" class="btn custom-file-upload">load theme
 		<input
 			id="file-upload"
@@ -106,6 +108,8 @@ const writeToFile = () => {
 <div class="cols">
 	<div class="col-output">
 		<h2 class="f-light">Output</h2>
+		<button class="btn btn-large" onclick={writeToFile}>download .json file</button>
+      <a class="smaller" href="/about#instructions">(instructions)</a>
 		<textarea readonly rows="22" cols="40">{outputString}</textarea>
 	</div>
 	<div class="col-preview">

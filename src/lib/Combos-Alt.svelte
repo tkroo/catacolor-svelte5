@@ -42,7 +42,7 @@
 
 </script>
 
-<p style="font-size: 0.75rem">A preview of foreground/background color combinations. <button class="btn" on:click={() => (showWCAG = !showWCAG)}>toggle contrast scores</button></p>
+<p style="font-size: 0.75rem">A preview of foreground/background color combinations. <button class="btn" onclick={() => (showWCAG = !showWCAG)}>toggle contrast scores</button></p>
 
 <div class="new-combos">
   {#each cc as chunk}
